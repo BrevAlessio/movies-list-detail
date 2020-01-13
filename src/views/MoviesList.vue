@@ -5,7 +5,7 @@
       <router-link
         v-for="movie in movies"
         :key="movie.id"
-        :to="{ name: 'movie-detail', params: { id: movie.id }}"
+        :to="{ name: 'movie-details', params: { id: movie.id }}"
         class="movies-list__link"
       >
         <movie-item
