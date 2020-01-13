@@ -3,3 +3,8 @@
     <router-view/>
   </div>
 </template>
+
+<style lang="stylus">
+  @import './style/reset'
+  @import './style/global'
+</style>
