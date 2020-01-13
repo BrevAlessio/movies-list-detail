@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import HttpClient from '@/repository/http-client.js'
+import axios from '@/repository/http-client.js'
 Vue.use(Vuex)
 
-export const actions = {
+// inject http client dependency for better unit testing
+export const actions = (HttpClient = axios) => ({
 
   /**
    * @description fetches a list of trending movies fromm apis and sets them in the state
@@ -35,7 +36,7 @@ export const actions = {
       })
       .catch(e => e)
   }
-}
+})
 
 export const state = {
   // list of movie ids
@@ -59,7 +60,7 @@ export const mutations = {
 }
 
 export default new Vuex.Store({
-  actions,
+  actions: actions(),
   getters,
   mutations,
   state
