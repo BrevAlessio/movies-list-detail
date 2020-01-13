@@ -10,9 +10,11 @@
         <div class="movie-informations">
           <h1>{{ movie.title }}</h1>
           <movie-rating :percentage="movie.vote_average * 10" size="medium" />
-          <p class="info-row">Duration {{ movie.runtime }}'</p>
-          <p class="info-row">Release date {{ new Date(movie.release_date).toLocaleDateString() }}</p>
-          <a class="info-row" :href="movie.homepage">{{ movie.homepage }}</a>
+          <p class="info-row"><span class="bold">Duration:</span> {{ movie.runtime }}'</p>
+          <p class="info-row"><span class="bold">Release date:</span> {{ new Date(movie.release_date).toLocaleDateString() }}</p>
+          <p class="info-row"><span class="bold">Cast:</span> {{ movie.credits.cast | castDisplay }}</p>
+          <p class="info-row"><span class="bold">Director:</span> {{ movie.credits.crew.find(member => member.job === 'Director').name }}</p>
+          <a class="info-row" :href="movie.homepage"><span class="bold">Website:</span> {{ movie.homepage }}</a>
           <p class="info-row info-row--text">{{ movie.overview }}</p>
         </div>
     </main>
@@ -31,6 +33,28 @@ export default {
   computed: {
     movie () {
       return this.$store.getters.getMovieById(this.$route.params.id)
+    }
+  },
+
+  filters: {
+    /**
+     * @param {Array} cast
+     * @returns {String}
+     */
+    castDisplay (cast) {
+      return cast
+        ? cast.slice(0, 4).map(actor => actor.name).join(', ')
+        : ''
+    },
+
+    /**
+     * @param {Array} crew
+     * @returns {String}
+     */
+    directorDisplay (crew) {
+      return crew
+        ? crew.filter(member => member.job === 'Director').map(member => member.name).join(', ')
+        : ''
     }
   },
 
@@ -58,6 +82,8 @@ export default {
         margin-bottom 10px
         line-height 1.2rem
         color beige
+        .bold
+          font-weight bold
         &--text
           border: 1px solid beige
           padding 15px

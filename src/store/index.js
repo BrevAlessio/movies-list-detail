@@ -25,7 +25,11 @@ export const actions = {
    */
   fetchMovieById ({ commit }, id) {
     return HttpClient.get(`${process.env.VUE_APP_MDB_ENDPOINT}/movie/${id}`, {})
-      .then(({ data }) => {
+      .then(async ({ data }) => {
+        data.credits = await HttpClient.get(`${process.env.VUE_APP_MDB_ENDPOINT}/movie/${id}/credits`, {})
+          .then(({ data }) => data)
+          .catch(e => null)
+
         commit('setMovie', data)
         return data
       })
