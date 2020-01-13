@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+import HttpClient from '@/repository/http-client.js'
 Vue.use(Vuex)
 
 export const actions = {
@@ -10,7 +10,7 @@ export const actions = {
    * @returns {Promise}
    */
   fetchMovies ({ commit }) {
-    return axios.get(`${process.env.VUE_APP_MDB_ENDPOINT}/trending/movie/week`)
+    return HttpClient.get(`${process.env.VUE_APP_MDB_ENDPOINT}/trending/movie/week`)
       .then(({ data }) => {
         commit('setMoviesList', data.results)
         data.results.forEach(movie => {
@@ -27,7 +27,7 @@ export const actions = {
    * @returns {Promise}
    */
   fetchMovieById ({ commit }, id) {
-    return axios.get(`${process.env.VUE_APP_MDB_ENDPOINT}/movie/${id}`, {})
+    return HttpClient.get(`${process.env.VUE_APP_MDB_ENDPOINT}/movie/${id}`, {})
       .then(({ data }) => {
         commit('setMovie', data)
         return data
@@ -50,7 +50,7 @@ export const getters = {
 
 export const mutations = {
   setMoviesList (state, moviesList) {
-    state.moviesList = moviesList.mpa(movie => movie.id)
+    state.moviesList = moviesList.map(movie => movie.id)
   },
   setMovie (state, movie) {
     Vue.set(state.moviesIds, movie.id, movie)
