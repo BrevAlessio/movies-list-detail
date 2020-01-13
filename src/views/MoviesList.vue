@@ -12,6 +12,7 @@
           :title="movie.title"
           :posterSrc="`https://image.tmdb.org/t/p/w200/${movie.poster_path}`"
         />
+        <movie-rating :percentage="movie.vote_average * 10" size="small" class="rating" />
       </router-link>
     </div>
   </div>
@@ -20,6 +21,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import MovieItem from '@/components/MovieItem.vue'
+import MovieRating from '@/components/MovieRating.vue'
 
 export default {
   name: 'MoviesList',
@@ -30,33 +32,34 @@ export default {
 
   computed: {
     ...mapGetters({
-      moviesIdsList: 'getMoviesList',
-      movieById: 'getMovieById'
-    }),
-
-    movies () {
-      return this.moviesIdsList.map(id => this.movieById(id))
-    }
+      movies: 'getMoviesList'
+    })
   },
 
   components: {
-    MovieItem
+    MovieItem,
+    MovieRating
   }
 }
 </script>
 
 <style lang="stylus">
 .movies
-  padding: 30px;
+  padding 30px
   h1
-    margin-bottom: 30px;
+    margin-bottom 30px
   .movies-list
-    display: flex
-    flex-wrap: wrap
-    justify-content: flex-start
-    min-height: 100vh
+    display flex
+    flex-wrap wrap
+    justify-content flex-start
+    min-height 100vh
     &__link
-      margin: 10px
+      margin 10px
+      position relative
       &:last-child
-        margin-right: auto
+        margin-right auto
+      .rating
+        position absolute
+        top -10px
+        right -45px
 </style>

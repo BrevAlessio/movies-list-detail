@@ -22,6 +22,6 @@ export default {
 
 <style lang="stylus" scoped>
   .movie
-    box-shadow: 1px 1px 4px black
-    line-height: 0px
+    box-shadow 1px 1px 4px black
+    line-height 0px
 </style>

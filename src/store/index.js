@@ -13,9 +13,6 @@ export const actions = {
     return HttpClient.get(`${process.env.VUE_APP_MDB_ENDPOINT}/trending/movie/week`)
       .then(({ data }) => {
         commit('setMoviesList', data.results)
-        data.results.forEach(movie => {
-          commit('setMovie', movie)
-        })
         return data
       })
       .catch(e => e)
@@ -50,7 +47,7 @@ export const getters = {
 
 export const mutations = {
   setMoviesList (state, moviesList) {
-    state.moviesList = moviesList.map(movie => movie.id)
+    state.moviesList = moviesList
   },
   setMovie (state, movie) {
     Vue.set(state.moviesIds, movie.id, movie)
